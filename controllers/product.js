@@ -1,8 +1,9 @@
-const Product = require('../models/product');
+const _ = require('lodash');
 const formadible = require('formidable');
 const fs = require('fs');
 
 const { errorHandler } = require('../helpers/dbErrorHandler');
+const Product = require('../models/product');
 
 exports.productById = (req, res, next, id) => {
 	Product.findById(id).exec((err, product) => {
@@ -54,7 +55,7 @@ exports.update = (req, res) => {
 		}
 
 		let product = req.product;
-		product = { ...product, ...fields };
+		product = _.extend(product, fields);
 
 		if (files.photo) {
 			if (files.photo.size > 1000000) {
