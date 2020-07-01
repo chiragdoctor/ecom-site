@@ -119,3 +119,23 @@ exports.create = (req, res) => {
 		});
 	});
 };
+
+exports.list = (req, res) => {
+	const order = req.query.order ? req.query.order : 'asc';
+	const sortBy = req.query.sortBy ? req.query.sortBy : '_id';
+	const limit = req.query.limit ? parseInt(req.query.limit) : 6;
+
+	Product.find()
+		.select('-photo')
+		.populate('category')
+		.sort([[sortBy, order]])
+		.limit(limit)
+		.exec((err, products) => {
+			if (err) {
+				return res.status(400).json({
+					error: 'Products not found',
+				});
+			}
+			res.send(products);
+		});
+};
