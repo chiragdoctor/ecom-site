@@ -50,7 +50,14 @@ exports.update = (req, res) => {
     }
 
     const { name, description, price, category, quantity, shipping } = fields;
-    if (!name || !description || !price || !category || !quantity || !shipping) {
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !quantity ||
+      !shipping
+    ) {
       return res.status(400).json({
         error: 'All fields are mandatory',
       });
@@ -93,7 +100,14 @@ exports.create = (req, res) => {
 
     // check all fields
     const { name, description, price, category, quantity, shipping } = fields;
-    if (!name || !description || !price || !category || !quantity || !shipping) {
+    if (
+      !name ||
+      !description ||
+      !price ||
+      !category ||
+      !quantity ||
+      !shipping
+    ) {
       return res.status(400).json({
         error: 'All fields are mandatory',
       });
@@ -233,6 +247,8 @@ exports.listSearch = (req, res) => {
         return res.status(400).json({ error: errorHandler(err) });
       }
       res.json(products);
-    }).select('-photo');
+    })
+      .populate('category')
+      .select('-photo');
   }
 };
