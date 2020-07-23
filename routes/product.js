@@ -3,20 +3,23 @@ const router = express.Router();
 const { requireSignin, isAdmin, isAuth } = require('../controllers/auth');
 
 const {
-	create,
-	productById,
-	read,
-	remove,
-	update,
-	list,
-	listRelated,
-	listCategories,
-	listBySearch,
-	photo,
+  create,
+  productById,
+  read,
+  remove,
+  update,
+  list,
+  listRelated,
+  listCategories,
+  listBySearch,
+  photo,
+  listSearch,
 } = require('../controllers/product');
 const { userById } = require('../controllers/user');
 
 router.get('/product/:productId', read);
+
+router.get('/products/search', listSearch);
 
 router.delete('/product/:productId/:userId', requireSignin, isAuth, isAdmin, remove);
 
