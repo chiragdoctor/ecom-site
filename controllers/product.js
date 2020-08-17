@@ -252,3 +252,23 @@ exports.listSearch = (req, res) => {
       .select('-photo');
   }
 };
+
+exports.manageStock = (req, res, next) => {
+  const blkOpts = req.body.order.products.map((item) => {
+    return {
+      updateOne: {
+        filter: { _id: item._id },
+        update: { $inc: { quantity: -item.count, sold: +item.count } },
+      },
+    };
+  });
+
+  Product.bulkWrite(blkOpts, {}, (err, products) => {
+    if (err) {
+      return res.status(400).json({
+        error: 'Could not update prodct',
+      });
+    }
+    next();
+  });
+};
