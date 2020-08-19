@@ -21,11 +21,23 @@ router.get('/product/:productId', read);
 
 router.get('/products/search', listSearch);
 
-router.delete('/product/:productId/:userId', requireSignin, isAuth, isAdmin, remove);
+router.delete(
+  '/product/:productId/:userId',
+  requireSignin,
+  isAuth,
+  isAdmin,
+  remove,
+);
 
 router.post('/product/create/:userId', requireSignin, isAuth, isAdmin, create);
 
-router.put('/product/:productId/:userId', requireSignin, isAuth, isAdmin, update);
+router.put(
+  '/product/:productId/:userId',
+  requireSignin,
+  isAuth,
+  isAdmin,
+  update,
+);
 
 router.get('/products', list);
 

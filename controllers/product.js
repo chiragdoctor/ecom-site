@@ -49,20 +49,6 @@ exports.update = (req, res) => {
       });
     }
 
-    const { name, description, price, category, quantity, shipping } = fields;
-    if (
-      !name ||
-      !description ||
-      !price ||
-      !category ||
-      !quantity ||
-      !shipping
-    ) {
-      return res.status(400).json({
-        error: 'All fields are mandatory',
-      });
-    }
-
     let product = req.product;
     product = _.extend(product, fields);
 
@@ -121,6 +107,7 @@ exports.create = (req, res) => {
           error: 'Image should be less than 1mb in size',
         });
       }
+      product.photo = undefined;
       product.photo.data = fs.readFileSync(files.photo.path);
       product.photo.contentType = files.photo.type;
     }
@@ -189,9 +176,6 @@ exports.listBySearch = (req, res) => {
   let limit = req.body.limit ? parseInt(req.body.limit) : 100;
   let skip = parseInt(req.body.skip);
   let findArgs = {};
-
-  // console.log(order, sortBy, limit, skip, req.body.filters);
-  // console.log("findArgs", findArgs);
 
   for (let key in req.body.filters) {
     if (req.body.filters[key].length > 0) {
